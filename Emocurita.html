@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Emoticaja: un espacio creativo para conocer, identificar y expresar tus emociones.">
+  <meta name="theme-color" content="#fff1f5">
+  <title>Emoticaja | Conoce y expresa tus emociones</title>
+  <style>
+    :root{
+      --pink:#f6a9c3; --pink-dark:#d95d8b; --yellow:#ffe49a;
+      --lilac:#d9c8f5; --green:#ccebd9; --ink:#403747;
+      --paper:#fffafc; --white:#fff; --shadow:0 12px 30px rgba(90,55,80,.10);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--paper);line-height:1.6}
+    a{color:inherit;text-decoration:none}
+    button,input,textarea{font:inherit}
+    .wrap{width:min(1100px,92%);margin:auto}
+    header{position:sticky;top:0;z-index:10;background:rgba(255,250,252,.94);backdrop-filter:blur(10px);border-bottom:1px solid #f3e6ec}
+    .nav{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{display:flex;align-items:center;gap:10px;font-size:1.55rem;font-weight:900;letter-spacing:.2px;color:var(--pink-dark)}
+    .brand-mark{width:42px;height:42px;border-radius:15px;background:linear-gradient(135deg,var(--pink),var(--yellow));display:grid;place-items:center;color:white;font-size:1.35rem;box-shadow:var(--shadow)}
+    .links{display:flex;gap:24px;align-items:center;font-weight:650;font-size:.95rem}
+    .links a:hover{color:var(--pink-dark)}
+    .menu-btn{display:none;border:0;background:var(--lilac);border-radius:12px;padding:8px 12px;color:var(--ink)}
+    .hero{padding:76px 0 66px;overflow:hidden;background:radial-gradient(circle at 90% 20%,#fff0bd 0 9%,transparent 10%),linear-gradient(135deg,#fff0f5,#f5efff 58%,#effaf3)}
+    .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:45px}
+    .eyebrow{display:inline-block;padding:7px 14px;border-radius:99px;background:white;color:var(--pink-dark);font-weight:750;font-size:.86rem}
+    h1{font-size:clamp(2.5rem,6vw,4.6rem);line-height:1.05;margin:18px 0;color:#49384a;letter-spacing:-2px}
+    h1 span{color:var(--pink-dark)}
+    .hero p{font-size:1.12rem;max-width:590px;color:#685d6a}
+    .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}
+    .btn{display:inline-block;border:0;border-radius:999px;padding:13px 22px;font-weight:800;cursor:pointer;transition:transform .2s,box-shadow .2s}
+    .btn:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+    .primary{background:var(--pink-dark);color:white}
+    .secondary{background:white;color:var(--pink-dark);border:1px solid #f3c6d7}
+    .hero-art{min-height:310px;display:grid;place-items:center;position:relative}
+    .emotion-orbit{width:min(330px,78vw);aspect-ratio:1;border-radius:50%;background:linear-gradient(135deg,#ffe49a,#f6b5cf 52%,#d9c8f5);display:grid;place-items:center;box-shadow:0 25px 55px rgba(178,112,151,.2);position:relative;animation:float 5s ease-in-out infinite}
+    .emotion-orbit:before{content:"";position:absolute;inset:22px;border:2px dashed rgba(255,255,255,.8);border-radius:50%}
+    .big-heart{font-size:8rem;filter:drop-shadow(0 10px 8px rgba(130,65,95,.15))}
+    .bubble{position:absolute;background:white;border-radius:18px;padding:10px 14px;box-shadow:var(--shadow);font-weight:750}
+    .b1{top:12%;left:-4%;transform:rotate(-7deg)}.b2{right:-7%;top:28%;transform:rotate(6deg)}.b3{bottom:8%;left:3%;transform:rotate(5deg)}
+    @keyframes float{50%{transform:translateY(-12px) rotate(2deg)}}
+    section{padding:72px 0}
+    .section-head{text-align:center;max-width:690px;margin:0 auto 34px}
+    .section-head h2{font-size:clamp(1.9rem,4vw,2.7rem);line-height:1.15;margin:0 0 12px}
+    .section-head p{color:#756a76;margin:0}
+    .about-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .info-card{padding:25px;border-radius:24px;background:white;box-shadow:var(--shadow);border:1px solid #f4eaf0}
+    .info-icon{width:54px;height:54px;border-radius:18px;display:grid;place-items:center;font-size:1.65rem;margin-bottom:12px}
+    .info-card h3{margin:5px 0 8px}.info-card p{margin:0;color:#756a76}
+    .pink-bg{background:#ffe0eb}.yellow-bg{background:#fff0c4}.green-bg{background:#e0f4e8}.lilac-bg{background:#eee5ff}
+    .emotions{background:#fff3f7}
+    .search-wrap{max-width:430px;margin:0 auto 25px;position:relative}
+    .search-wrap input{width:100%;border:1px solid #eadce5;border-radius:999px;padding:13px 18px;background:white;outline:none}
+    .search-wrap input:focus,.field input:focus,.field textarea:focus{border-color:var(--pink-dark);box-shadow:0 0 0 3px rgba(217,93,139,.12)}
+    .emotion-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+    .emotion-card{background:white;border-radius:22px;padding:22px 16px;text-align:center;box-shadow:var(--shadow);transition:transform .2s}
+    .emotion-card:hover{transform:translateY(-5px)}
+    .face{font-size:3.2rem;display:block;margin-bottom:8px}
+    .emotion-card h3{margin:0 0 6px}.emotion-card p{margin:0;color:#756a76;font-size:.93rem}
+    .benefits-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}
+    .benefit-panel{background:linear-gradient(135deg,#e9f7ef,#f4efff);border-radius:28px;padding:30px}
+    .benefit-panel h3{font-size:1.5rem;margin-top:0}
+    .benefit-list{padding:0;list-style:none}
+    .benefit-list li{margin:13px 0;display:flex;gap:10px;align-items:flex-start}
+    .check{color:#39976b;font-weight:900}
+    .quote{background:#fff1c9;border-radius:28px;padding:34px;text-align:center}
+    .quote .symbol{font-size:3rem}.quote p{font-size:1.3rem;font-weight:750}
+    .contact{background:#f6f0ff}
+    .contact-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:30px;align-items:start}
+    .contact-copy{padding:20px 0}
+    .contact-form{background:white;padding:28px;border-radius:25px;box-shadow:var(--shadow)}
+    .field{margin-bottom:15px}
+    .field label{display:block;font-weight:750;margin-bottom:6px}
+    .field input,.field textarea{width:100%;border:1px solid #e8dfe9;border-radius:13px;padding:12px 14px;outline:none;background:#fff}
+    .field textarea{min-height:120px;resize:vertical}
+    .note{font-size:.82rem;color:#817684}
+    #form-status{font-weight:700;color:#39845f;min-height:1.5em}
+    footer{background:#403747;color:#fff;padding:35px 0}
+    .footer-row{display:flex;justify-content:space-between;gap:25px;align-items:center;flex-wrap:wrap}
+    .footer-links{display:flex;gap:18px;flex-wrap:wrap;color:#f8dce8}
+    footer small{color:#d8ccd8}
+    @media(max-width:800px){
+      .hero-grid,.benefits-grid,.contact-grid{grid-template-columns:1fr}
+      .hero{padding-top:55px}.hero-art{min-height:270px}
+      .about-grid{grid-template-columns:1fr 1fr}
+      .emotion-grid{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:600px){
+      .menu-btn{display:block}.links{display:none;position:absolute;top:76px;left:0;right:0;background:var(--paper);padding:18px 4%;border-bottom:1px solid #f3e6ec;flex-direction:column;align-items:flex-start}
+      .links.open{display:flex}.about-grid{grid-template-columns:1fr}
+      .brand{font-size:1.3rem}.big-heart{font-size:6.5rem}
+      section{padding:55px 0}
+    }
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#inicio" aria-label="Emoticaja, inicio"><span class="brand-mark" aria-hidden="true">♡</span> Emoticaja</a>
+      <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav-links">Menú ☰</button>
+      <nav class="links" id="nav-links" aria-label="Navegación principal">
+        <a href="#inicio">Inicio</a><a href="#nosotros">Nosotros</a><a href="#emociones">Emociones</a><a href="#beneficios">Beneficios</a><a href="#contacto">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="wrap hero-grid">
+        <div>
+          <span class="eyebrow">Un espacio para sentir y aprender</span>
+          <h1>¡Dale un lugar a tus <span>emociones!</span></h1>
+          <p>En Emoticaja creemos que todas las emociones tienen algo que decir. Explora, identifica y aprende a expresar lo que sientes de una manera creativa y positiva.</p>
+          <div class="actions"><a class="btn primary" href="#emociones">Explorar emociones</a><a class="btn secondary" href="#nosotros">Conoce Emoticaja</a></div>
+        </div>
+        <div class="hero-art" aria-label="Ilustración decorativa de un corazón y emociones">
+          <div class="emotion-orbit"><span class="big-heart">💗</span><span class="bubble b1">¡Exprésate! ✨</span><span class="bubble b2">Está bien sentir 💛</span><span class="bubble b3">Conócete 🌱</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="nosotros">
+      <div class="wrap">
+        <div class="section-head"><h2>¿Qué es Emoticaja?</h2><p>Un proyecto que busca acercar el mundo de las emociones a través de recursos visuales, actividades y experiencias sencillas.</p></div>
+        <div class="about-grid">
+          <article class="info-card"><div class="info-icon pink-bg">💗</div><h3>Nuestra esencia</h3><p>Promover el reconocimiento y la expresión emocional en un ambiente amable, seguro y sin juicios.</p></article>
+          <article class="info-card"><div class="info-icon yellow-bg">🌟</div><h3>Nuestro propósito</h3><p>Compartir herramientas que ayuden a comprender lo que sentimos y comunicarlo de forma saludable.</p></article>
+          <article class="info-card"><div class="info-icon green-bg">🌱</div><h3>Nuestra idea</h3><p>Aprender sobre emociones puede ser una experiencia cercana, divertida, creativa y significativa.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="emotions" id="emociones">
+      <div class="wrap">
+        <div class="section-head"><h2>Conoce tus emociones</h2><p>Cada emoción cumple una función. Busca una y descubre una breve descripción.</p></div>
+        <div class="search-wrap"><input id="emotion-search" type="search" placeholder="Buscar una emoción..." aria-label="Buscar una emoción"></div>
+        <div class="emotion-grid" id="emotion-grid">
+          <article class="emotion-card" data-name="alegría"><span class="face">😊</span><h3>Alegría</h3><p>Puede aparecer cuando vivimos algo agradable o significativo.</p></article>
+          <article class="emotion-card" data-name="tristeza"><span class="face">😢</span><h3>Tristeza</h3><p>Nos ayuda a reconocer pérdidas, necesidades y momentos difíciles.</p></article>
+          <article class="emotion-card" data-name="enojo"><span class="face">😠</span><h3>Enojo</h3><p>Puede señalar que algo nos incomoda o que necesitamos poner límites.</p></article>
+          <article class="emotion-card" data-name="miedo"><span class="face">😨</span><h3>Miedo</h3><p>Nos alerta ante situaciones que percibimos como amenazantes.</p></article>
+          <article class="emotion-card" data-name="sorpresa"><span class="face">😮</span><h3>Sorpresa</h3><p>Surge ante algo inesperado y nos prepara para responder.</p></article>
+          <article class="emotion-card" data-name="calma"><span class="face">😌</span><h3>Calma</h3><p>Se relaciona con una sensación de tranquilidad y seguridad.</p></article>
+          <article class="emotion-card" data-name="asco"><span class="face">🤢</span><h3>Asco</h3><p>Nos ayuda a alejarnos de aquello que percibimos como desagradable.</p></article>
+          <article class="emotion-card" data-name="vergüenza"><span class="face">😳</span><h3>Vergüenza</h3><p>Puede aparecer cuando sentimos que estamos siendo evaluados.</p></article>
+        </div>
+        <p id="no-results" class="note" style="text-align:center;display:none">No encontramos esa emoción. Prueba con otra palabra.</p>
+      </div>
+    </section>
+
+    <section id="beneficios">
+      <div class="wrap benefits-grid">
+        <div class="benefit-panel">
+          <h3>¿Por qué es importante reconocer lo que sentimos?</h3>
+          <ul class="benefit-list">
+            <li><span class="check">✓</span><span>Favorece el autoconocimiento y la identificación de necesidades.</span></li>
+            <li><span class="check">✓</span><span>Ayuda a comunicar sentimientos de manera clara y respetuosa.</span></li>
+            <li><span class="check">✓</span><span>Puede apoyar la convivencia y las relaciones con otras personas.</span></li>
+            <li><span class="check">✓</span><span>Permite buscar estrategias saludables para afrontar momentos difíciles.</span></li>
+          </ul>
+        </div>
+        <div class="quote"><div class="symbol">🌈</div><p>“No existen emociones buenas o malas: todas nos ofrecen información sobre lo que vivimos”.</p><span>— Emoticaja</span></div>
+      </div>
+    </section>
+
+    <section class="contact" id="contacto">
+      <div class="wrap contact-grid">
+        <div class="contact-copy"><span class="eyebrow">Estamos para escucharte</span><h2>¡Ponte en contacto!</h2><p>¿Tienes alguna duda, comentario o sugerencia sobre Emoticaja? Escríbenos mediante el formulario.</p><p>También puedes agregar aquí tus redes sociales oficiales para que las personas encuentren el proyecto.</p></div>
+        <form class="contact-form" id="contact-form">
+          <div class="field"><label for="name">Nombre</label><input id="name" name="name" autocomplete="name" required placeholder="Escribe tu nombre"></div>
+          <div class="field"><label for="email">Correo electrónico</label><input id="email" name="email" type="email" autocomplete="email" required placeholder="tunombre@correo.com"></div>
+          <div class="field"><label for="message">Mensaje</label><textarea id="message" name="message" required placeholder="Cuéntanos cómo podemos ayudarte..."></textarea></div>
+          <button class="btn primary" type="submit">Preparar mensaje</button>
+          <p class="note">Este formulario abre tu aplicación de correo para enviar el mensaje. Sustituye el correo de ejemplo en el código por el correo oficial del proyecto.</p>
+          <p id="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-row">
+      <div><strong style="font-size:1.3rem">♡ Emoticaja</strong><br><small>Un espacio para conocer y expresar tus emociones.</small></div>
+      <nav class="footer-links" aria-label="Redes sociales"><a href="#" aria-label="Instagram (agrega el enlace oficial)">Instagram</a><a href="#" aria-label="Facebook (agrega el enlace oficial)">Facebook</a><a href="#" aria-label="TikTok (agrega el enlace oficial)">TikTok</a></nav>
+      <small>© <span id="year"></span> Emoticaja. Todos los derechos reservados.</small>
+    </div>
+  </footer>
+
+  <script>
+    const menuButton = document.getElementById('menu-btn');
+    const navLinks = document.getElementById('nav-links');
+    menuButton.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      menuButton.setAttribute('aria-expanded', String(isOpen));
+    });
+    navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      menuButton.setAttribute('aria-expanded', 'false');
+    }));
+
+    const search = document.getElementById('emotion-search');
+    const cards = [...document.querySelectorAll('.emotion-card')];
+    const noResults = document.getElementById('no-results');
+    search.addEventListener('input', () => {
+      const term = search.value.trim().toLocaleLowerCase('es');
+      let visible = 0;
+      cards.forEach(card => {
+        const match = card.dataset.name.includes(term);
+        card.hidden = !match;
+        if (match) visible++;
+      });
+      noResults.style.display = visible ? 'none' : 'block';
+    });
+
+    document.getElementById('contact-form').addEventListener('submit', event => {
+      event.preventDefault();
+      const data = new FormData(event.currentTarget);
+      const recipient = 'CORREO_OFICIAL@ejemplo.com'; // Reemplazar por el correo real
+      const subject = encodeURIComponent('Mensaje desde el sitio web de Emoticaja');
+      const body = encodeURIComponent(
+        `Nombre: ${data.get('name')}\nCorreo: ${data.get('email')}\n\nMensaje:\n${data.get('message')}`
+      );
+      document.getElementById('form-status').textContent = 'Se abrirá tu aplicación de correo para completar el envío.';
+      window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+    });
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
